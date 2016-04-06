@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FECA7D671CB54DA100CD5F59"
-               BuildableName = "TBFileIO.framework"
-               BlueprintName = "TBFileIO"
+               BlueprintIdentifier = "FECA7D8D1CB5509000CD5F59"
+               BuildableName = "TBFileIO-Universal"
+               BlueprintName = "TBFileIO-Universal"
                ReferencedContainer = "container:TBFileIO.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -26,34 +26,14 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      codeCoverageEnabled = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FECA7D711CB54DA100CD5F59"
-               BuildableName = "TBFileIOTests.xctest"
-               BlueprintName = "TBFileIOTests"
-               ReferencedContainer = "container:TBFileIO.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "FECA7D671CB54DA100CD5F59"
-            BuildableName = "TBFileIO.framework"
-            BlueprintName = "TBFileIO"
-            ReferencedContainer = "container:TBFileIO.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -65,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "FECA7D671CB54DA100CD5F59"
-            BuildableName = "TBFileIO.framework"
-            BlueprintName = "TBFileIO"
+            BlueprintIdentifier = "FECA7D8D1CB5509000CD5F59"
+            BuildableName = "TBFileIO-Universal"
+            BlueprintName = "TBFileIO-Universal"
             ReferencedContainer = "container:TBFileIO.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -83,9 +63,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "FECA7D671CB54DA100CD5F59"
-            BuildableName = "TBFileIO.framework"
-            BlueprintName = "TBFileIO"
+            BlueprintIdentifier = "FECA7D8D1CB5509000CD5F59"
+            BuildableName = "TBFileIO-Universal"
+            BlueprintName = "TBFileIO-Universal"
             ReferencedContainer = "container:TBFileIO.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

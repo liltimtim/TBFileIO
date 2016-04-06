@@ -6,10 +6,26 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		FECA7D8D1CB5509000CD5F59 /* TBFileIO-Universal */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = FECA7D901CB5509000CD5F59 /* Build configuration list for PBXAggregateTarget "TBFileIO-Universal" */;
+			buildPhases = (
+				FECA7D911CB5509700CD5F59 /* Run Script */,
+			);
+			dependencies = (
+			);
+			name = "TBFileIO-Universal";
+			productName = "TBFileIO-Universal";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		FECA7D6C1CB54DA100CD5F59 /* TBFileIO.h in Headers */ = {isa = PBXBuildFile; fileRef = FECA7D6B1CB54DA100CD5F59 /* TBFileIO.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FECA7D731CB54DA100CD5F59 /* TBFileIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FECA7D681CB54DA100CD5F59 /* TBFileIO.framework */; };
 		FECA7D781CB54DA100CD5F59 /* TBFileIOTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FECA7D771CB54DA100CD5F59 /* TBFileIOTests.swift */; };
+		FECA7DCE1CB5602D00CD5F59 /* FileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = FECA7DCD1CB5602D00CD5F59 /* FileIO.swift */; };
+		FECA7DCF1CB5602D00CD5F59 /* FileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = FECA7DCD1CB5602D00CD5F59 /* FileIO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +45,7 @@
 		FECA7D721CB54DA100CD5F59 /* TBFileIOTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TBFileIOTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FECA7D771CB54DA100CD5F59 /* TBFileIOTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBFileIOTests.swift; sourceTree = "<group>"; };
 		FECA7D791CB54DA100CD5F59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FECA7DCD1CB5602D00CD5F59 /* FileIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileIO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +90,7 @@
 			children = (
 				FECA7D6B1CB54DA100CD5F59 /* TBFileIO.h */,
 				FECA7D6D1CB54DA100CD5F59 /* Info.plist */,
+				FECA7DCD1CB5602D00CD5F59 /* FileIO.swift */,
 			);
 			path = TBFileIO;
 			sourceTree = "<group>";
@@ -151,6 +169,9 @@
 					FECA7D711CB54DA100CD5F59 = {
 						CreatedOnToolsVersion = 7.3;
 					};
+					FECA7D8D1CB5509000CD5F59 = {
+						CreatedOnToolsVersion = 7.3;
+					};
 				};
 			};
 			buildConfigurationList = FECA7D621CB54DA100CD5F59 /* Build configuration list for PBXProject "TBFileIO" */;
@@ -167,6 +188,7 @@
 			targets = (
 				FECA7D671CB54DA100CD5F59 /* TBFileIO */,
 				FECA7D711CB54DA100CD5F59 /* TBFileIOTests */,
+				FECA7D8D1CB5509000CD5F59 /* TBFileIO-Universal */,
 			);
 		};
 /* End PBXProject section */
@@ -188,11 +210,29 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		FECA7D911CB5509700CD5F59 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "######################\n# Options\n######################\n# workaround for bitcode generation problem with Xcode 7.3\nunset TOOLCHAINS\nREVEAL_ARCHIVE_IN_FINDER=false\n\nFRAMEWORK_NAME=\"${PROJECT_NAME}\"\n\nSIMULATOR_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${FRAMEWORK_NAME}.framework\"\n\nDEVICE_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_NAME}.framework\"\n\nUNIVERSAL_LIBRARY_DIR=\"${BUILD_DIR}/${CONFIGURATION}-iphoneuniversal\"\n\nFRAMEWORK=\"${UNIVERSAL_LIBRARY_DIR}/${FRAMEWORK_NAME}.framework\"\n\n\n######################\n# Build Frameworks\n######################\n\nxcodebuild -workspace ${PROJECT_NAME}.xcworkspace -scheme ${PROJECT_NAME} -sdk iphonesimulator -configuration ${CONFIGURATION} clean build CONFIGURATION_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphonesimulator 2>&1\n\nxcodebuild -workspace ${PROJECT_NAME}.xcworkspace -scheme ${PROJECT_NAME} -sdk iphoneos -configuration ${CONFIGURATION} clean build CONFIGURATION_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphoneos 2>&1\n\n######################\n# Create directory for universal\n######################\n\nrm -rf \"${UNIVERSAL_LIBRARY_DIR}\"\n\nmkdir \"${UNIVERSAL_LIBRARY_DIR}\"\n\nmkdir \"${FRAMEWORK}\"\n\n\n######################\n# Copy files Framework\n######################\n\ncp -r \"${DEVICE_LIBRARY_PATH}/.\" \"${FRAMEWORK}\"\n\n\n######################\n# Make an universal binary\n######################\n\nlipo \"${SIMULATOR_LIBRARY_PATH}/${FRAMEWORK_NAME}\" \"${DEVICE_LIBRARY_PATH}/${FRAMEWORK_NAME}\" -create -output \"${FRAMEWORK}/${FRAMEWORK_NAME}\" | echo\n\n# For Swift framework, Swiftmodule needs to be copied in the universal framework\nif [ -d \"${SIMULATOR_LIBRARY_PATH}/Modules/${FRAMEWORK_NAME}.swiftmodule/\" ]; then\ncp -f ${SIMULATOR_LIBRARY_PATH}/Modules/${FRAMEWORK_NAME}.swiftmodule \"${FRAMEWORK}/Modules/${FRAMEWORK_NAME}.swiftmodule/\" | echo\n                                                                      fi\n                                                                      \n                                                                      if [ -d \"${DEVICE_LIBRARY_PATH}/Modules/${FRAMEWORK_NAME}.swiftmodule/\" ]; then\n                                                                      cp -f ${DEVICE_LIBRARY_PATH}/Modules/${FRAMEWORK_NAME}.swiftmodule \"${FRAMEWORK}/Modules/${FRAMEWORK_NAME}.swiftmodule/\" | echo\n                                                                      fi\n                                                                      \n                                                                      ######################\n                                                                      # On Release, copy the result to release directory\n                                                                      ######################\n                                                                      OUTPUT_DIR=\"${PROJECT_DIR}/Output/${FRAMEWORK_NAME}-${CONFIGURATION}-iphoneuniversal/\"\n                                                                      \n                                                                      rm -rf \"$OUTPUT_DIR\"\n                                                                      mkdir -p \"$OUTPUT_DIR\"\n                                                                      \n                                                                      cp -r \"${FRAMEWORK}\" \"$OUTPUT_DIR\"\n                                                                      \n                                                                      if [ ${REVEAL_ARCHIVE_IN_FINDER} = true ]; then\n                                                                      open \"${OUTPUT_DIR}/\"\n                                                                      fi";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		FECA7D631CB54DA100CD5F59 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FECA7DCE1CB5602D00CD5F59 /* FileIO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,6 +241,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FECA7D781CB54DA100CD5F59 /* TBFileIOTests.swift in Sources */,
+				FECA7DCF1CB5602D00CD5F59 /* FileIO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,6 +278,8 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -286,6 +329,8 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -309,6 +354,7 @@
 		FECA7D7D1CB54DA100CD5F59 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -316,15 +362,18 @@
 				INFOPLIST_FILE = TBFileIO/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tb.TBFileIO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		FECA7D7E1CB54DA100CD5F59 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -332,6 +381,7 @@
 				INFOPLIST_FILE = TBFileIO/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tb.TBFileIO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -358,6 +408,28 @@
 			};
 			name = Release;
 		};
+		FECA7D8E1CB5509000CD5F59 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = "-fembed-bitcode";
+				OTHER_LDFLAGS = "-fembed-bitcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		FECA7D8F1CB5509000CD5F59 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = "-fembed-bitcode";
+				OTHER_LDFLAGS = "-fembed-bitcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -377,12 +449,22 @@
 				FECA7D7E1CB54DA100CD5F59 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FECA7D7F1CB54DA100CD5F59 /* Build configuration list for PBXNativeTarget "TBFileIOTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FECA7D801CB54DA100CD5F59 /* Debug */,
 				FECA7D811CB54DA100CD5F59 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FECA7D901CB5509000CD5F59 /* Build configuration list for PBXAggregateTarget "TBFileIO-Universal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FECA7D8E1CB5509000CD5F59 /* Debug */,
+				FECA7D8F1CB5509000CD5F59 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
