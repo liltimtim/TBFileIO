@@ -1,0 +1,10 @@
+framework module TBFileIO {
+  umbrella header "TBFileIO.h"
+
+  export *
+  module * { export * }
+}
+
+module TBFileIO.Swift {
+    header "TBFileIO-Swift.h"
+}
